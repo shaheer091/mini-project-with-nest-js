@@ -35,12 +35,13 @@ export class AppService {
         email,
         password: hashedPassword,
       });
-      const payload ={
+      const payload = {
         userId: newUser._id,
         username,
-        email
-      }
-      const token = this.jwtService.sign(payload)
+        email,
+        isAdmin: false,
+      };
+      const token = this.jwtService.sign(payload);
       await newUser.save();
       return { message: 'user is saved', success: true, token };
     }
@@ -57,12 +58,13 @@ export class AppService {
       if (!validPassord) {
         return { message: 'Invalid Password' };
       } else {
-        const payload ={
+        const payload = {
           userId: user._id,
           username,
           email: user.email,
-        }
-        const token = this.jwtService.sign(payload)
+          isAdmin: user.isAdmin,
+        };
+        const token = this.jwtService.sign(payload);
         return { message: 'user successfully logged in', success: true, token };
       }
     }
