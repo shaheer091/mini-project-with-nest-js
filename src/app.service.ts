@@ -21,7 +21,9 @@ export class AppService {
     if (password !== confirmPassword) {
       return { message: 'the password doesnt match' };
     }
-    const existingUser = await this.userModel.findOne({ username });
+    const existingUser = await this.userModel.findOne({
+      $or: [{ username }, { email }],
+    });
     if (existingUser) {
       if (existingUser.username == username) {
         return { message: 'the username is already taken' };
@@ -43,7 +45,7 @@ export class AppService {
       };
       const token = this.jwtService.sign(payload);
       await newUser.save();
-      return { message: 'user is saved', success: true, token };
+      return { message: 'signup successfull', success: true, token };
     }
   }
 
