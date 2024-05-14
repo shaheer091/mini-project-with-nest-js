@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserController } from './app/controllers/user/user.controller';
@@ -7,6 +7,8 @@ import { UserSchema } from './app/models/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtService } from './jwt.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UserService } from './app/services/user.service';
+
 
 @Module({
   imports: [
@@ -31,6 +33,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   controllers: [AppController, UserController],
-  providers: [AppService, JwtService],
+  providers: [AppService, JwtService, UserService],
 })
-export class AppModule {}
+export class AppModule{}

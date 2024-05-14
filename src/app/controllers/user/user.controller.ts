@@ -1,15 +1,11 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { UserService } from 'src/app/services/user.service';
 
 @Controller('user')
 export class UserController {
-  @Get()
-  getUser(): string {
-    console.log('hello');
-    return 'get user';
-  }
-  @Post('register')
-  registerUser(@Body() name: any): any {
-    const {username, password}= name;
-    return `User registered successfully`;
+  constructor(private userServ:UserService){}
+  @Post('updateUserProfile')
+  updateUserProfile(@Body() body:any) {
+    return this.userServ.updateUserProfile(body)
   }
 }
