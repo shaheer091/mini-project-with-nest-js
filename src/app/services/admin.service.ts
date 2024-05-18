@@ -5,9 +5,11 @@ import { Post } from '../models/post.model';
 
 @Injectable()
 export class AdminService {
-  constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
-  savePost(data: any) {
-    const { userId, title, description, price, isAvailable } = data;
+  constructor(
+    @InjectModel('Post') private readonly postModel: Model<Post>,
+  ) {}
+  savePost(data: any, userId:any) {
+    const { title, description, price, isAvailable } = data;
     if (!userId || !title || !description || !price || !isAvailable) {
       return { message: 'all fields are required' };
     } else if (price < 0) {
@@ -22,5 +24,9 @@ export class AdminService {
       }).save();
       return { message: 'new post saved' };
     }
+  }
+
+  getAllPost(){
+    return this.postModel.find()
   }
 }

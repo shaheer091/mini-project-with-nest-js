@@ -16,6 +16,7 @@ import { UserService } from './app/services/user.service';
 import { AdminController } from './app/controllers/admin.controller';
 import { AdminService } from './app/services/admin.service';
 import { PostSchema } from './app/models/post.schema';
+import { JwtAuthGuard } from './app/guards/jwt.guard';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { PostSchema } from './app/models/post.schema';
     }),
   ],
   controllers: [AppController, UserController, AdminController],
-  providers: [AppService, JwtService, UserService, AdminService],
+  providers: [AppService, JwtService, UserService, AdminService, JwtAuthGuard],
+  exports:[JwtAuthGuard]
 })
 export class AppModule {}
