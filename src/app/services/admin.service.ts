@@ -4,12 +4,15 @@ import { Model } from 'mongoose';
 import { Post } from '../models/post.model';
 import * as mongoose from 'mongoose';
 import { User } from '../models/user.model';
+import { NotificationGateway } from './notification.gateway';
+import { Socket } from 'socket.io';
 
 @Injectable()
 export class AdminService {
   constructor(
     @InjectModel('Post') private readonly postModel: Model<Post>,
     @InjectModel('User') private readonly userModel: Model<User>,
+    private notiServ: NotificationGateway,
   ) {}
   async savePost(data: any, userId: any) {
     const { title, content } = data;
@@ -21,12 +24,13 @@ export class AdminService {
         title,
         content,
       }).save();
+      await this.notiServ.sendNotification('post added by admin. see now');
       return { message: 'new post saved' };
     }
   }
 
   getAllPost() {
-    return this.postModel.find();
+    return this.postModel.find().sort({ dateCreated: -1 });
   }
 
   async deletePost(id: any) {

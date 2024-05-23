@@ -10,7 +10,6 @@ export class AdminController {
 
   @Post('addPost')
   async addPosts(@Body() data: any, @Req() request: CustomRequest) {
-    console.log(data);
     const userId = request.userId.userId;
     return this.adminServ.savePost(data, userId);
   }

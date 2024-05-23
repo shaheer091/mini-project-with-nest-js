@@ -17,6 +17,7 @@ import { AdminController } from './app/controllers/admin.controller';
 import { AdminService } from './app/services/admin.service';
 import { PostSchema } from './app/models/post.schema';
 import { JwtAuthGuard } from './app/guards/jwt.guard';
+import { NotificationGateway } from './app/services/notification.gateway';
 
 @Module({
   imports: [
@@ -40,7 +41,7 @@ import { JwtAuthGuard } from './app/guards/jwt.guard';
     }),
   ],
   controllers: [AppController, UserController, AdminController],
-  providers: [AppService, JwtService, UserService, AdminService, JwtAuthGuard],
+  providers: [AppService, JwtService, UserService, AdminService, JwtAuthGuard, NotificationGateway],
   exports: [JwtAuthGuard],
 })
 export class AppModule {}

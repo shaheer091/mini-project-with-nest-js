@@ -6,6 +6,7 @@ export interface Post extends mongoose.Document {
   userId: mongoose.Types.ObjectId,
   title: string;
   content: string;
+  dateCreated: Date,
 }
 
 export const PostModel = mongoose.model<Post>('Post', PostSchema);
