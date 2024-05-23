@@ -10,6 +10,7 @@ export class AdminController {
 
   @Post('addPost')
   async addPosts(@Body() data: any, @Req() request: CustomRequest) {
+    console.log(data);
     const userId = request.userId.userId;
     return this.adminServ.savePost(data, userId);
   }
@@ -22,5 +23,10 @@ export class AdminController {
   @Delete('deletePost/:id')
   async deletePost(@Param() id:any){
     return this.adminServ.deletePost(id)
+  }
+
+  @Get('seeAllUsers')
+  async seeAllUsers(){
+    return this.adminServ.getAllUsers()
   }
 }

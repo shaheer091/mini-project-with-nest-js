@@ -5,9 +5,7 @@ import { PostSchema } from './post.schema';
 export interface Post extends mongoose.Document {
   userId: mongoose.Types.ObjectId,
   title: string;
-  description:string;
-  price: Number;
-  isAvailable: Boolean;
+  content: string;
 }
 
 export const PostModel = mongoose.model<Post>('Post', PostSchema);

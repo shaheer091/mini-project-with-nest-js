@@ -3,23 +3,23 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Post } from '../models/post.model';
 import * as mongoose from 'mongoose';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class AdminService {
-  constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
-  savePost(data: any, userId: any) {
-    const { title, description, price, isAvailable } = data;
-    if (!userId || !title || !description || !price || !isAvailable) {
+  constructor(
+    @InjectModel('Post') private readonly postModel: Model<Post>,
+    @InjectModel('User') private readonly userModel: Model<User>,
+  ) {}
+  async savePost(data: any, userId: any) {
+    const { title, content } = data;
+    if (!userId || !title || !content) {
       return { message: 'all fields are required' };
-    } else if (price < 0) {
-      return { message: 'price must be greater than 0' };
     } else {
-      new this.postModel({
+      await new this.postModel({
         userId,
         title,
-        description,
-        price,
-        isAvailable,
+        content,
       }).save();
       return { message: 'new post saved' };
     }
@@ -42,5 +42,8 @@ export class AdminService {
         return { message: 'something went wrong' };
       }
     }
+  }
+  getAllUsers() {
+    return this.userModel.find({isAdmin: false})
   }
 }
