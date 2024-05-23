@@ -44,6 +44,28 @@ export class AdminService {
     }
   }
   getAllUsers() {
-    return this.userModel.find({isAdmin: false})
+    return this.userModel.find({ isAdmin: false });
+  }
+  async deleteUser(id: any) {
+    const userId = new mongoose.Types.ObjectId(id.userId);
+    if (!userId) {
+      return { message: 'no user found in this id' };
+    } else {
+      const result = await this.userModel.findByIdAndDelete(userId);
+      if (result) {
+        return { message: 'user deleted successfully' };
+      } else {
+        return { message: 'something went wrong' };
+      }
+    }
+  }
+
+  async getAdminHome() {
+    const user = await this.userModel
+      .find({ isAdmin: false })
+      .countDocuments()
+      .exec();
+    const post = await this.postModel.countDocuments().exec();
+    return { user, post };
   }
 }

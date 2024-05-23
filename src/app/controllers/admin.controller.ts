@@ -29,4 +29,12 @@ export class AdminController {
   async seeAllUsers(){
     return this.adminServ.getAllUsers()
   }
+  @Delete('deleteUser/:userId')
+  async deleteUser(@Param() userId:any){
+    return this.adminServ.deleteUser(userId)
+  }
+  @Get('home')
+  async home(){
+    return await this.adminServ.getAdminHome()
+  }
 }

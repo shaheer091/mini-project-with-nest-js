@@ -52,7 +52,6 @@ export class AppService {
   async userLogin(data: any) {
     const { username, password } = data;
     const user = await this.userModel.findOne({ username });
-    console.log(user);
     if (!user) {
       return { message: 'User doesnot exist' };
     } else {
