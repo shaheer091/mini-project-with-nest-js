@@ -4,8 +4,9 @@ import { UserService } from 'src/app/services/user.service';
 @Controller('user')
 export class UserController {
   constructor(private userServ:UserService){}
-  @Post('updateUserProfile')
-  updateUserProfile(@Body() body:any) {
-    return this.userServ.updateUserProfile(body)
+
+  @Get('getHome')
+  getUserHome(){
+    return this.userServ.getUserHome()
   }
 }

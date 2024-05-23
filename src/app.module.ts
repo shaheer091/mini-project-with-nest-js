@@ -11,7 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './app/models/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtService } from './jwt.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { UserService } from './app/services/user.service';
 import { AdminController } from './app/controllers/admin.controller';
 import { AdminService } from './app/services/admin.service';
@@ -24,10 +24,8 @@ import { JwtAuthGuard } from './app/guards/jwt.guard';
       isGlobal: true,
     }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('DB_LINK'),
+      useFactory: () => ({
+        uri: process.env.DB_LINK,
       }),
     }),
     MongooseModule.forFeature([
@@ -35,16 +33,14 @@ import { JwtAuthGuard } from './app/guards/jwt.guard';
       { name: 'Post', schema: PostSchema },
     ]),
     JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '1h' },
+      useFactory: async () => ({
+        secret: process.env.JWT_SECRET,
+        signOptions: { expiresIn: '1d' },
       }),
     }),
   ],
   controllers: [AppController, UserController, AdminController],
   providers: [AppService, JwtService, UserService, AdminService, JwtAuthGuard],
-  exports:[JwtAuthGuard]
+  exports: [JwtAuthGuard],
 })
 export class AppModule {}
